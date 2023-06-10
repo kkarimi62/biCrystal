@@ -1,0 +1,46 @@
+# ---------- Initialize Simulation --------------------- 
+include ${INC}/initSoftWall.mod
+# temperature
+#variable T equal 300 
+#variable rn equal round(random(1,100000,5239))
+#variable a equal 2.5
+#variable dump_every equal 200
+
+#units metal
+#atom_style atomic
+#atom_modify map array
+#boundary p s p
+
+# ---------- Create Atoms ---------------------
+include ${INC}/CreateBox.mod
+#read_data init.lmp
+
+#mass 1 58.933
+#mass 2 51.996
+#mass 3 55.845
+#mass 4 1.008
+#mass 5 54.938
+
+# interactions
+#pair_style deepmd compressed_model.pb 
+#pair_coeff * *
+
+#neighbor 2.0 bin
+#neigh_modify delay 10 every 1 check yes
+
+
+include ${INC}/thermo.mod
+#thermo 100
+#thermo_style custom step temp pe pyz etotal press pxx pyy pzz vol lx ly lz
+#thermo_modify norm no
+
+dump 1 all custom ${dump_every} ${OUT_PATH}/${DumpFile} id type x y z
+
+velocity all create $T ${rn} rot yes mom yes dist gaussian
+fix 1 all npt temp $T $T ${damp_t} x 0 0 ${damp_p} z 0 0 ${damp_p}
+
+variable                  t_eq      equal     100.0*${damp_t}         # Equlibration time
+variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
+
+run                       ${Nstep}
+#run 10000
