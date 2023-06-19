@@ -14,7 +14,7 @@ include ${INC}/potential.mod
 include ${INC}/buffer.mod
 
 #--- thermo
-#include ${INC}/thermo.mod
+include ${INC}/thermo.mod
 
 # -------------------------------------- Minimization -------------------------------------------#
 

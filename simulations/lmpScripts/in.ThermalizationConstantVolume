@@ -12,7 +12,7 @@ include ${INC}/potential.mod
 include ${INC}/buffer.mod
 
 #--- thermalize two partial dislocations
-#include ${INC}/thermo.mod
+include ${INC}/thermo.mod
 
 # -------------------------------------- General Variables --------------------------------------#
 variable                  t_eq      equal     10.0*${damp_t}         # Equlibration time

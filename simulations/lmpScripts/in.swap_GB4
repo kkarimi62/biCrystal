@@ -131,7 +131,7 @@ dump_modify 1 flush yes format line "%d %d %4.3e %4.3e %4.3e" # %4.3e %4.3e %4.3
 timestep	${dt}
 
 #--- thermalize two partial dislocations
-include ${INC}/thermo.mod
+include ${INC}/thermo2nd.mod
 
 run                       ${Nstep}
 
