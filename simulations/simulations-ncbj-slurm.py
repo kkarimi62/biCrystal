@@ -114,12 +114,12 @@ if __name__ == '__main__':
                     51:' -var buff 0.0 -var buffy 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
                     7:' -var buff 0.0 -var T 1500.0 -var P 0.0 -var nevery 100 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData equilibrated.dat',
                     71:' -var buff 0.0 -var T 0.1 -var P 0.0 -var nevery 100 -var ParseData 1 -var DataFile swapped_600.dat -var DumpFile dumpThermalized2.xyz -var WriteData Equilibrated_0.dat',
-                    72:' -var seed %s -var buff 0.0 -var buffy 5.0 -var Tinit 0.1 -var T 300.0 -var nevery 100 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData equilibrated.dat'%np.random.randint(1001,9999),
+                    72:' -var seed %s -var buff 0.0 -var buffy 0.0 -var Tinit 300.0 -var T 300.0 -var nevery 100 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpThermalized.xyz -var WriteData equilibrated.dat'%np.random.randint(1001,9999),
                     8:' -var buff 0.0 -var T 300.0 -var sigm 1.0 -var sigmdt 0.0001 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
                     9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
                     10:' -var ParseData 1 -var DataFile swapped_600.dat',
                     11:' -var T 300 -var rn %s -var dump_every 200 -var ParseData 1 -var DataFile init.lmp -var DumpFile traj.dump'%np.random.randint(1001,100000),
-                    12:' -var buff 0.0 -var buffy 5.0 -var T 300 -var swap_every 100 -var swap_atoms 267 -var rn %s -var dump_every 100 -var ParseData 1 -var DataFile equilibrated.dat -var DumpFile traj.dump'%np.random.randint(1001,100000),
+                    12:' -var buff 0.0 -var buffy 5.0 -var T 300 -var swap_every 10 -var swap_atoms 20 -var rn %s -var dump_every 10 -var ParseData 1 -var DataFile equilibrated.dat -var DumpFile traj.dump'%np.random.randint(1001,100000),
                     'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
                     'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
                     'p2':' %s 3.52 52.0 18.0 26.0 data_init.txt 2 1 1.0'%(os.getcwd()+'/lmpScripts'),
@@ -129,7 +129,7 @@ if __name__ == '__main__':
                     'p5':' ',
                     'p6':' %s data_init.txt data_init.txt 100'%(os.getcwd()+'/lmpScripts'),
                     'p7':' sortieproc.0 0 Topo_ignore',
-                    'p8':' %s 3.52 25.0 40.0 40.0 data_init.txt 5 1 2 3 4 5 0.25 0.25 0.25 0.0 0.25'%(py_lib_path),
+                    'p8':' %s 3.52 13.0 20.0 16.0 data_init.txt 5 1 2 3 4 5 0.25 0.25 0.25 0.0 0.25'%(py_lib_path),
                     'p81':' %s 3.52 9.0 36.0 9.0 data_init.txt 5 1 2 3 4 5 0.25 0.25 0.25 0.0 0.25'%(py_lib_path),
                      1.0:'-x DataFile=data_minimized.txt',
                      2.0:'-x DataFile=data_minimized.txt',
@@ -147,9 +147,11 @@ if __name__ == '__main__':
                     8:['p2','p6',51,'p7','p3','p5',1.0], #--- dislocate, add H, minimize, create Topo_ignore, kart input, kart.sh to bash shell ,invoke kart
                     9:['p7','p3','p5',1.0], #--- create Topo_ignore, kart input, kart.sh to bash shell ,invoke kart
                     12:['p8', 51, 72], #--- twin boundary by atomsk, minimize, thermalize
-                    13:['p8', 51, 72, 12], #--- twin boundary by atomsk, minimize, thermalize, swap
                     14:['p81', 51, 72, 12], #--- twin boundary by atomsk, minimize, thermalize, swap
-                  }[ 14 ]
+                    13:['p8', 72, 12], #--- twin boundary by atomsk, thermalize, swap
+                  }[ 13 ]
+        
+        ###
         Pipeline = list(map(lambda x:LmpScript[x],indices))
         EXEC = list(map(lambda x:np.array(['lmp','py','kmc'])[[ type(x) == type(0), type(x) == type(''), type(x) == type(1.0) ]][0], indices))	
         #

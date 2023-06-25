@@ -32,7 +32,7 @@ fix extra all print 10 "${varStep} ${varTemp} ${varPe} ${varVol}" screen no titl
 
 
 
-thermo 10 #00
+thermo 100 #00
 thermo_style custom step c_thermo_temp0 pe press vol 
 thermo_modify norm no
 
