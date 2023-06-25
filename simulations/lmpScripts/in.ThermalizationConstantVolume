@@ -6,6 +6,9 @@ include ${INC}/CreateBox.mod
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
 
+#--- set mass 
+include ${INC}/mass.mod
+
 include ${INC}/potential.mod
 
 #--- fix buffer zone

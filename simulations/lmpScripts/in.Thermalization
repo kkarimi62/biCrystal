@@ -8,6 +8,9 @@ include ${INC}/CreateBox.mod
 
 include ${INC}/potential.mod
 
+#--- set mass 
+include ${INC}/mass.mod
+
 #--- fix buffer zone
 include ${INC}/buffer.mod
 
@@ -48,6 +51,7 @@ timestep	${dt}
 run                       ${Nstep}
 
 unfix                     f1
+undump                    1
 reset_timestep            0
 # -------------------------------------- Write Data ----------------------------------------------#
 

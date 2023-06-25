@@ -5,15 +5,17 @@ include ${INC}/initSoftWall.mod
 include ${INC}/CreateBox.mod
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
-
 include ${INC}/potential.mod
+
+#--- set mass 
+include ${INC}/mass.mod
 
 #--- fix buffer zone
 include ${INC}/buffer.mod
 
 
 # -------------------------------------- General Variables --------------------------------------#
-variable                  t_eq      equal     100.0*${damp_t}         # Equlibration time
+variable                  t_eq      equal     10.0*${damp_t}         # Equlibration time
 variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
 
 #variable N_comp string CoNiCrMn_GB3
@@ -97,8 +99,8 @@ variable finalTemp equal ${T} #300         	# desired temperature
 ###################################################
 
 #timestep 0.001
-#fix              1  bulk npt temp ${initTemp} ${initTemp} ${damp_t} y 0 0 1 z 0 0 1  
-fix             f1  bulk nvt temp $T $T ${damp_t} 
+fix              1  bulk npt temp ${initTemp} ${initTemp} ${damp_t} x 0.0 0.0 ${damp_p} z 0.0 0.0 ${damp_p}  
+#fix             f1  bulk nvt temp $T $T ${damp_t} 
 #fix             2 lower setforce 0 0 0
 #fix             3 upper setforce 0 0 0
 variable      ran1 equal round(random(0,999999,10))
@@ -127,6 +129,7 @@ dump_modify 1 flush yes format line "%d %d %4.3e %4.3e %4.3e" # %4.3e %4.3e %4.3
 #dump	a all custom 100 MD-MC_temp${N_comp}_${initTemp}.dump id type x y z vx vy vz
 #thermo 1000
 #thermo_style custom step  f_4[1] f_4[2] f_5[1] f_5[2] f_6[1] f_6[2] f_7[1] f_7[2] f_8[1] f_8[2] f_9[1] f_9[2] temp pe etotal press vol  ke
+
 #--- set discretization time 
 timestep	${dt}
 
