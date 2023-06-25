@@ -93,12 +93,12 @@ if __name__ == '__main__':
     #--- open txt file
     with open('polyX.txt','w') as fp:
     #--- copy commands
-        fp.write('box %s %s 0\nnode 0.5*box 0.25*box 0 0 0 -26.57\nnode 0.5*box 0.75*box 0 0 0 26.57'%(lx,ly))
+        fp.write('box %s %s 0\nnode 0.5*box 0.25*box 0 0 0 -5.0\nnode 0.5*box 0.75*box 0 0 0 5.0'%(lx,ly))
     os.system('atomsk --polycrystal aluminium.xsf polyX.txt polycrystal.cfg')
 
     
     #--- Duplicate the system
-    os.system('atomsk --polycrystal aluminium.xsf polyX.txt polycrystal.cfg -dup 5 3 1')
+#    os.system('atomsk --polycrystal aluminium.xsf polyX.txt polycrystal.cfg -dup 5 3 1')
 
     os.system('mv polycrystal.cfg data.cfg')
 	#--- output

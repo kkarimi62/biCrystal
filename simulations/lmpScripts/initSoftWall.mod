@@ -21,7 +21,7 @@ atom_style      atomic
 
 
 #--- 
-boundary    	p p p
+boundary    	p s p
 atom_modify map array
 
 
@@ -35,7 +35,7 @@ variable cunits string GPa
 
 # Define minimization parameters
 variable etol equal 0.0 
-variable ftol equal 1.0e-01 #6
+variable ftol equal 1.0e-03 #-01 #6
 variable maxiter equal 100000
 variable maxeval equal 100000
 variable dmax equal 1.0e-2

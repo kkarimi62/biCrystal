@@ -22,11 +22,11 @@ pair_coeff * *
 
 
 # Setup neighbor  style
-#neighbor 2.0 bin
-#neigh_modify delay 10 every 1 check yes
+neighbor 2.0 bin
+neigh_modify delay 10 every 1 check yes
 
-neighbor 1.0 nsq
-neigh_modify once no every 1 delay 0 check yes
+#neighbor 1.0 nsq
+#neigh_modify once no every 1 delay 0 check yes
 
 
 #--- kart settings

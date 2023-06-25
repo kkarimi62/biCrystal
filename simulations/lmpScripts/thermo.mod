@@ -5,7 +5,7 @@
 #variable varTime equal v_varStep*${dt}
 #variable varXy	 equal	xy
 #variable varLy	 equal	ly
-#variable varVol	 equal	vol
+variable varVol	 equal	vol
 #variable varPe	 equal	pe
 #variable varPxx	 equal	pxx
 #variable varPyy	 equal	pyy
@@ -19,8 +19,16 @@
 #variable varn	 equal	v_ntherm
 #fix extra all print ${varn} "${varStep} ${varTime} ${varEzz} ${varTemp} ${varPe} ${varPxx} ${varPyy} ${varSzz} ${varVol}" screen no title "step time ezz temp pe pxx pyy szz vol" file thermo.txt
 
-compute thermo_temp0 bulk temp
-variable varTemp equal temp
+compute thermo_temp0  bulk temp
+#compute thermo_press0 bulk press
+compute thermo_pe0    all pe
+#
+variable varTemp  equal c_thermo_temp0
+#variable varPress equal c_thermo_press0
+variable varPe	  equal	c_thermo_pe0
+variable varStep  equal step
+
+fix extra all print 1 "${varStep} ${varTemp} ${varPe} ${varVol}" screen no title "step temp pe vol" file thermo.txt
 
 #variable       swap_attempt equal f_4[1]+f_5[1]+f_6[1]+f_7[1]+f_8[1]+f_9[1]
 #variable       swap_accept  equal f_4[2]+f_5[2]+f_6[1]+f_7[1]+f_8[1]+f_9[1]
@@ -30,7 +38,7 @@ variable varTemp equal temp
 #	"variable	   swap_ratio		equal 0.0"
 
 
-thermo 100
+thermo 1 #00
 thermo_style custom step c_thermo_temp0 pe press vol #v_swap_accept v_swap_attempt
 thermo_modify norm no
 

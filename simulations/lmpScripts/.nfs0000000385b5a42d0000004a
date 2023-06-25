@@ -12,28 +12,26 @@ include ${INC}/potential.mod
 include ${INC}/buffer.mod
 
 #--- thermalize two partial dislocations
+include ${INC}/thermo.mod
 
 # -------------------------------------- General Variables --------------------------------------#
-variable                  t_eq      equal     10.0*${damp_t}         # Equlibration time
+variable                  t_eq      equal     80.0*${damp_t}         # Equlibration time
 variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
 
 
 
  
 # ----------------------------------- NVT Equilibration -----------------------------------------#
-compute     1 all stress/atom NULL pair
+#compute     1 all stress/atom NULL pair
 #--- initial stress
 #run	0
 #variable tmp equal press
 #variable p0 equal ${tmp}
 
 velocity                  bulk       create     ${Tinit}     ${seed}  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
- 
-include ${INC}/thermo.mod
-#thermo                    100
-#thermo_style              custom    step temp etotal pe press vol
-fix                      f1        all        npt temp   ${Tinit}  $T  ${damp_t}  x 0.0 0.0 ${damp_p} z 0.0 0.0 ${damp_p} #iso ${p0} $P ${damp_p} drag	1.0 ##fixedpoint 0.0 0.0 0.0
-#fix 1 all npt temp $T $T $(dt*100) x 0 0 $(dt*1000) z 0 0 $(dt*1000)
+
+fix                      f1        bulk        nvt temp   ${Tinit}  ${T}  ${damp_t}  #iso ${p0} $P ${damp_p} drag	1.0 ##fixedpoint 0.0 0.0 0.0
+#fix                      f1        bulk        npt temp   ${T}  ${T}  ${damp_t}  x 0 0 ${damp_p} y 0 0 ${damp_p} z 0 0 ${damp_p} #drag	1.0 ##fixedpoint 0.0 0.0 0.0
 
 #-----------------------------
 #--- compute & dump variables
@@ -48,6 +46,7 @@ timestep	${dt}
 run                       ${Nstep}
 
 unfix                     f1
+undump                     1
 reset_timestep            0
 # -------------------------------------- Write Data ----------------------------------------------#
 
