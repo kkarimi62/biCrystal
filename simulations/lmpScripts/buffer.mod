@@ -11,6 +11,8 @@ variable y0	equal ${yylo}+${buffy}
 variable yyhi	equal yhi
 variable y1		equal ${yyhi}-${buffy}
 #
+region my_swap_region block INF INF ${y0} ${y1} INF INF
+#
 region up block INF INF ${y1} INF INF INF
 region down block INF INF INF ${y0} INF INF
 region right block ${x1} INF INF INF INF INF

@@ -28,17 +28,11 @@ variable varTemp  equal c_thermo_temp0
 variable varPe	  equal	c_thermo_pe0
 variable varStep  equal step
 
-fix extra all print 1 "${varStep} ${varTemp} ${varPe} ${varVol}" screen no title "step temp pe vol" file thermo.txt
-
-#variable       swap_attempt equal f_4[1]+f_5[1]+f_6[1]+f_7[1]+f_8[1]+f_9[1]
-#variable       swap_accept  equal f_4[2]+f_5[2]+f_6[1]+f_7[1]+f_8[1]+f_9[1]
-#if "${swap_attempt} > 0" then &
-#	"variable	   swap_ratio		equal 1.0*${swap_accept}/${swap_attempt}" &
-#else &
-#	"variable	   swap_ratio		equal 0.0"
+fix extra all print 10 "${varStep} ${varTemp} ${varPe} ${varVol}" screen no title "step temp pe vol" file thermo.txt
 
 
-thermo 1 #00
-thermo_style custom step c_thermo_temp0 pe press vol #v_swap_accept v_swap_attempt
+
+thermo 10 #00
+thermo_style custom step c_thermo_temp0 pe press vol 
 thermo_modify norm no
 

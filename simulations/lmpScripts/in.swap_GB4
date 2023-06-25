@@ -99,26 +99,28 @@ variable finalTemp equal ${T} #300         	# desired temperature
 ###################################################
 
 #timestep 0.001
-fix              1  bulk npt temp ${initTemp} ${initTemp} ${damp_t} x 0.0 0.0 ${damp_p} z 0.0 0.0 ${damp_p}  
+#fix              f1  all npt temp ${initTemp} ${initTemp} ${damp_t} x 0.0 0.0 ${damp_p} z 0.0 0.0 ${damp_p}  
+fix              f1  bulk nvt temp ${initTemp} ${initTemp} ${damp_t}  #x 0.0 0.0 ${damp_p} z 0.0 0.0 ${damp_p}  
 #fix             f1  bulk nvt temp $T $T ${damp_t} 
 #fix             2 lower setforce 0 0 0
 #fix             3 upper setforce 0 0 0
 variable      ran1 equal round(random(0,999999,10))
 variable      ran2 equal round(random(0,999999,33))
 variable      ran3 equal round(random(0,999999,7865))
-variable      ran4 equal round(random(0,999999,160))
+variable      ran4 equal round(random(0,999999,180))
 variable      ran5 equal round(random(0,999999,376))
 variable      ran6 equal round(random(0,999999,79))
 variable      ran7 equal round(random(0,999999,436))
 variable      ran8 equal round(random(0,999999,3103))
 variable      ran9 equal round(random(0,999999,887))
 variable      ran10 equal round(random(0,999999,3408))
-fix 4 bulk atom/swap ${swap_every} ${swap_atoms} ${ran1} ${initTemp} ke no  types 1 2 
-fix 5 bulk atom/swap ${swap_every} ${swap_atoms} ${ran4} ${initTemp} ke no  types 1 3
-fix 7 bulk atom/swap ${swap_every} ${swap_atoms} ${ran7} ${initTemp} ke no  types 1 5
-fix 6 bulk atom/swap ${swap_every} ${swap_atoms} ${ran5} ${initTemp} ke no  types 2 3
-fix 8 bulk atom/swap ${swap_every} ${swap_atoms} ${ran8} ${initTemp} ke no  types 2 5
-fix 9 bulk atom/swap ${swap_every} ${swap_atoms} ${ran10} ${initTemp} ke no  types 3 5
+#fix 4 bulk atom/swap ${swap_every} ${swap_atoms} ${ran1} ${initTemp} ke yes  types 1 2 
+#fix 5 bulk atom/swap 10 0 ${ran4} 300.0 region my_swap_region  types 1 3
+fix 5 bulk atom/swap 10 1 1966 300.0  types 1 3
+#fix 7 bulk atom/swap ${swap_every} ${swap_atoms} ${ran7} ${initTemp} ke yes  types 1 5
+#fix 6 bulk atom/swap ${swap_every} ${swap_atoms} ${ran5} ${initTemp} ke yes  types 2 3
+#fix 8 bulk atom/swap ${swap_every} ${swap_atoms} ${ran8} ${initTemp} ke yes  types 2 5
+#fix 9 bulk atom/swap ${swap_every} ${swap_atoms} ${ran10} ${initTemp} ke yes  types 3 5
 
 #-----------------------------
 #--- compute & dump variables
@@ -127,7 +129,7 @@ dump        1 all custom ${dump_every} ${OUT_PATH}/${DumpFile} id type x y z #c_
 dump_modify 1 flush yes format line "%d %d %4.3e %4.3e %4.3e" # %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
 
 #dump	a all custom 100 MD-MC_temp${N_comp}_${initTemp}.dump id type x y z vx vy vz
-#thermo 1000
+thermo 1 #000
 #thermo_style custom step  f_4[1] f_4[2] f_5[1] f_5[2] f_6[1] f_6[2] f_7[1] f_7[2] f_8[1] f_8[2] f_9[1] f_9[2] temp pe etotal press vol  ke
 
 #--- set discretization time 
