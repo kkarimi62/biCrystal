@@ -5,7 +5,7 @@ if __name__ == '__main__':
     #---
 #     lnums = [ 36, 108  ]
 #     string=open('simulations.py').readlines() #--- python script
-    lnums = [ 39, 117, 121 ]
+    lnums = [ 39, 117, 122 ]
     string=open('simulations-ncbj-slurm.py').readlines() #--- python script
     #---
     Temps={
@@ -30,7 +30,7 @@ if __name__ == '__main__':
                 1:0.2,
                 2:0.4
                 }
-    natom = 1000
+    natom = 1200
     #---
     count = 0
     for keys_t in Temps:
