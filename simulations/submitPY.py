@@ -36,9 +36,9 @@ if __name__ == '__main__':
     for keys_t in Temps:
         temp = Temps[keys_t]
         for key_s in SwapEvery:
-            nevery = SwapEvery[keys_s]
+            nevery = SwapEvery[key_s]
             for key_n in SwapNumber:
-                nswap = int(SwapNumber[keys_n] * natom / 6) #--- six pairs
+                nswap = int(SwapNumber[key_n] * natom / 6) #--- six pairs
                 #---	densities
                 inums = lnums[ 0 ] - 1
                 string[ inums ] = "\t7:\'withDefectWithwall/SwapNumber/number%s\',\n"%(keys_n) #--- change job name
