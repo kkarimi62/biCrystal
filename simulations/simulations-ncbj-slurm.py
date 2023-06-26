@@ -36,7 +36,7 @@ if __name__ == '__main__':
                     5:'hydrogenDiffusionInAlT1000KDislocated', 
                     6:'hydrogenDiffusionInAlBigMultipleTemps100H/temp0', #'hydrogenFree',
                     4:'mitStuff2nd', 
-                    7:'withDefectWithwall', #'biCrystalMultipleTemp2nd/temp0', 
+                    7:'withDefectWithwall/SwapNumber/number0', #'biCrystalMultipleTemp2nd/temp0', 
                    }[7]
         sourcePath = os.getcwd() +\
                     {	

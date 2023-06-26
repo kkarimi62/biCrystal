@@ -15,7 +15,7 @@ include ${INC}/buffer.mod
 
 
 # -------------------------------------- General Variables --------------------------------------#
-variable                  t_eq      equal     10.0*${damp_t}         # Equlibration time
+variable                  t_eq      equal     100.0*${damp_t}         # Equlibration time
 variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
 
 #variable N_comp string CoNiCrMn_GB3
