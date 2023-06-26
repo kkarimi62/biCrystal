@@ -1,11 +1,11 @@
 #--- output thermodynamic variables
-#variable varStep equal step
+variable varStep equal step
 #variable varPress equal press
 #variable varTemp equal temp
-#variable varTime equal v_varStep*${dt}
+variable varTime equal v_varStep*${dt}
 #variable varXy	 equal	xy
 #variable varLy	 equal	ly
-#variable varVol	 equal	vol
+variable varVol	 equal	vol
 #variable varPe	 equal	pe
 #variable varPxx	 equal	pxx
 #variable varPyy	 equal	pyy
@@ -17,18 +17,15 @@
 #variable varEzz	 equal	v_varTime*${GammaDot}		
 #variable ntherm  equal	ceil(${Nstep}/${nthermo})
 #variable varn	 equal	v_ntherm
-#fix extra all print ${varn} "${varStep} ${varTime} ${varEzz} ${varTemp} ${varPe} ${varPxx} ${varPyy} ${varSzz} ${varVol}" screen no title "step time ezz temp pe pxx pyy szz vol" file thermo.txt
-
-compute thermo_temp0 bulk temp
-variable varTemp equal temp
-
 variable       swap_attempt equal f_4[1]+f_5[1]+f_6[1]+f_7[1]+f_8[1]+f_9[1]
 variable       swap_accept  equal f_4[2]+f_5[2]+f_6[1]+f_7[1]+f_8[1]+f_9[1]
-#if "${swap_attempt} > 0" then &
-#	"variable	   swap_ratio		equal 1.0*${swap_accept}/${swap_attempt}" &
-#else &
-#	"variable	   swap_ratio		equal 0.0"
+variable 	   var_swap_attempt equal v_swap_attempt
+variable 	   var_swap_accept  equal v_swap_accept
+compute thermo_temp0 bulk temp
+variable varTemp equal c_thermo_temp0
 
+
+fix extra all print 10 "${varStep} ${varTime} ${varTemp} ${varVol} ${var_swap_accept} ${var_swap_attempt}" screen no title "step time temp vol swap_accept swap_attempt" file thermo2nd.txt
 
 thermo 10 #0
 thermo_style custom step c_thermo_temp0 pe press vol v_swap_accept v_swap_attempt
