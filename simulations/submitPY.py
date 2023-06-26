@@ -19,16 +19,16 @@ if __name__ == '__main__':
             }
     
     SwapEvery={
-#                 0:10,
-#                 1:20,
-#                 2:40,
-#                 3:80,
+                0:10,
+                1:20,
+                2:40,
+                3:80,
                 4:100
                 }
     SwapNumber={
-                0:0.1,
+#                0:0.1,
                 1:0.2,
-                2:0.4
+#                2:0.4
                 }
     natom = 1200
     #---
@@ -41,7 +41,7 @@ if __name__ == '__main__':
                 nswap = int(SwapNumber[key_n] * natom / 6) #--- six pairs
                 #---	densities
                 inums = lnums[ 0 ] - 1
-                string[ inums ] = "\t7:\'withDefectWithwall/SwapNumber/number%s\',\n"%(key_n) #--- change job name
+                string[ inums ] = "\t7:\'withDefectWithwall/freqs/freq%s\',\n"%(key_s) #--- change job name
                 #---
                 inums = lnums[ 1 ] - 1
                 string[ inums ] = "\t72:\' -var seed %%s -var buff 0.0 -var buffy 0.0 -var Tinit %s -var T %s -var nevery 100 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpThermalized.xyz -var WriteData equilibrated.dat\'%%np.random.randint(1001,9999),\n"%(temp,temp)
