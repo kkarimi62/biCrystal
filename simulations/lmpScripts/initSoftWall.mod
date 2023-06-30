@@ -53,6 +53,6 @@ variable dmax equal 1.0e-2
 variable            dt        equal     0.001         # Time step
 
 #--- thermostat parameters
-variable            damp_t    equal     100*${dt}     # Thermostat damping
+variable            damp_t    equal     10*${dt}     # Thermostat damping
 variable            damp_p    equal     1000*${dt}    # Barostat damping
 
