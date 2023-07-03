@@ -36,7 +36,7 @@ if __name__ == '__main__':
                     5:'hydrogenDiffusionInAlT1000KDislocated', 
                     6:'hydrogenDiffusionInAlBigMultipleTemps100H/temp0', #'hydrogenFree',
                     4:'mitStuff2nd', 
-                    7:'withDefectWithwall/drag/drag0', #'biCrystalMultipleTemp2nd/temp0', 
+                    7:'noDefectWithwall/drag/drag0', #'biCrystalMultipleTemp2nd/temp0', 
                    }[7]
         sourcePath = os.getcwd() +\
                     {	
@@ -147,7 +147,6 @@ if __name__ == '__main__':
                     8:['p2','p6',51,'p7','p3','p5',1.0], #--- dislocate, add H, minimize, create Topo_ignore, kart input, kart.sh to bash shell ,invoke kart
                     9:['p7','p3','p5',1.0], #--- create Topo_ignore, kart input, kart.sh to bash shell ,invoke kart
                     12:['p8', 51, 72], #--- twin boundary by atomsk, minimize, thermalize
-                    14:['p81', 51, 72, 12], #--- twin boundary by atomsk, minimize, thermalize, swap
                     13:['p8', 72, 12], #--- twin boundary by atomsk, thermalize, swap
                   }[ 13 ]
         
