@@ -38,7 +38,7 @@ if __name__ == '__main__':
                     4:'mitStuff2nd', 
                     7:'defectNoWall/boundary/boundary0', #'biCrystalMultipleTemp2nd/temp0', 
                     8:'noDefectNowall/dt/dt0', #'biCrystalMultipleTemp2nd/temp0', 
-                   }[7]
+                   }[8]
         sourcePath = os.getcwd() +\
                     {	
                         0:'/junk',
