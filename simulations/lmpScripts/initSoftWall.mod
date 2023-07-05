@@ -50,7 +50,7 @@ variable dmax equal 1.0e-2
 #mass 5 54.938
 
 #--- discretization time
-variable            dt        equal     0.0005         # Time step
+variable            dt        equal     0.001         # Time step
 
 #--- thermostat parameters
 variable            damp_t    equal     10*${dt}     # Thermostat damping
