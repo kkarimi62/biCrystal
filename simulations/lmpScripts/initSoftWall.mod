@@ -21,7 +21,7 @@ atom_style      atomic
 
 
 #--- 
-boundary    	p s p
+boundary    	p p p
 atom_modify map array
 
 
