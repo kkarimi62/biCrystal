@@ -18,7 +18,7 @@ variable varVol	 equal	vol
 #variable ntherm  equal	ceil(${Nstep}/${nthermo})
 #variable varn	 equal	v_ntherm
 variable       swap_attempt equal f_4[1]+f_5[1]+f_6[1]+f_7[1]+f_8[1]+f_9[1]
-variable       swap_accept  equal f_4[2]+f_5[2]+f_6[1]+f_7[1]+f_8[1]+f_9[1]
+variable       swap_accept  equal f_4[2]+f_5[2]+f_6[2]+f_7[2]+f_8[2]+f_9[2]
 variable 	   var_swap_attempt equal v_swap_attempt
 variable 	   var_swap_accept  equal v_swap_accept
 compute thermo_temp0 bulk temp

@@ -33,8 +33,8 @@ variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
 
 velocity                  bulk       create     ${Tinit}     ${seed}  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
 
-fix                      f1        bulk        nvt temp   ${Tinit}  ${T}  ${damp_t}  #iso ${p0} $P ${damp_p} drag	1.0 ##fixedpoint 0.0 0.0 0.0
-#fix                      f1        bulk        npt temp   ${T}  ${T}  ${damp_t}  x 0 0 ${damp_p} y 0 0 ${damp_p} z 0 0 ${damp_p} #drag	1.0 ##fixedpoint 0.0 0.0 0.0
+#fix                      f1        bulk        nvt temp   ${Tinit}  ${T}  ${damp_t}  #iso ${p0} $P ${damp_p} drag	1.0 ##fixedpoint 0.0 0.0 0.0
+fix                      f1        bulk        npt temp   ${T}  ${T}  ${damp_t}  x 0 0 ${damp_p} z 0 0 ${damp_p} #drag	1.0 ##fixedpoint 0.0 0.0 0.0
 
 #-----------------------------
 #--- compute & dump variables
