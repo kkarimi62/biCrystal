@@ -38,7 +38,8 @@ if __name__ == '__main__':
                     4:'mitStuff2nd', 
                     7:'defectNoWall/boundary/boundary2', #'biCrystalMultipleTemp2nd/temp0', 
                     8:'withDefectWithwall/rate/rate0', #'biCrystalMultipleTemp2nd/temp0', 
-                   }[7]
+                    9:'noDefect', #'biCrystalMultipleTemp2nd/temp0', 
+                   }[9]
         sourcePath = os.getcwd() +\
                     {	
                         0:'/junk',
@@ -91,6 +92,7 @@ if __name__ == '__main__':
                         10:'in.elasticSoftWall',
                         11:'in.relax',
                         12:'in.swap_GB4',
+                        13:'in.relax2nd',
                         'p0':'partition.py', #--- python file
                         'p1':'WriteDump.py',
                         'p2':'DislocateEdge.py',
@@ -121,6 +123,7 @@ if __name__ == '__main__':
                     10:' -var ParseData 1 -var DataFile swapped_600.dat',
                     11:' -var T 300 -var rn %s -var dump_every 200 -var ParseData 1 -var DataFile init.lmp -var DumpFile traj.dump'%np.random.randint(1001,100000),
                     12:' -var buff 0.0 -var buffy 0.0 -var T 300 -var swap_every 1 -var swap_atoms 1 -var rn %s -var dump_every 10 -var ParseData 1 -var DataFile equilibrated.dat -var DumpFile traj.dump'%np.random.randint(1001,100000),
+                    13:' ',
                     'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
                     'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
                     'p2':' %s 3.52 52.0 18.0 26.0 data_init.txt 2 1 1.0'%(os.getcwd()+'/lmpScripts'),
@@ -149,7 +152,8 @@ if __name__ == '__main__':
                     9:['p7','p3','p5',1.0], #--- create Topo_ignore, kart input, kart.sh to bash shell ,invoke kart
                     12:['p8', 51, 72], #--- twin boundary by atomsk, minimize, thermalize
                     13:['p8', 72, 12], #--- twin boundary by atomsk, thermalize, swap
-                  }[ 13 ]
+                    14:[13],
+                  }[ 14 ]
         
         ###
         Pipeline = list(map(lambda x:LmpScript[x],indices))
@@ -160,7 +164,7 @@ if __name__ == '__main__':
                     }['mit']
         durtn = ['23:59:59','00:09:59','167:59:59'][ 0 ]
         mem = '12gb'
-        partition = ['INTEL_PHI','INTEL_CASCADE'][0]
+        partition = ['INTEL_PHI','INTEL_CASCADE'][1]
         #--
         DeleteExistingFolder = True
         if DeleteExistingFolder:

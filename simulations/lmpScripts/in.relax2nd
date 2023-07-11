@@ -1,0 +1,74 @@
+# temperature
+variable T equal 300 
+variable rn equal round(random(1,100000,5239))
+variable a equal 2.5
+variable dump_every equal 10
+variable swap_every equal 1
+variable swap_atoms equal 1
+
+units metal
+atom_style atomic
+atom_modify map array
+boundary p s p
+
+read_data init.lmp
+
+
+# interactions
+pair_style deepmd compressed_model.pb 
+pair_coeff * *
+
+neighbor 2.0 bin
+neigh_modify delay 10 every 1 check yes
+
+thermo 1
+#thermo_style custom step temp pe pyz etotal press pxx pyy pzz vol lx ly lz
+thermo_style custom step temp pe press vol 
+thermo_modify norm no
+
+variable varStep equal step
+variable varTemp equal temp
+variable varPe	 equal	pe
+variable varVol	 equal	vol
+fix extra all print 10 "${varStep} ${varTemp} ${varPe} ${varVol}" screen no title "step temp pe vol" file thermo.txt
+
+dump 1 all custom ${dump_every} traj.dump id type x y z
+
+velocity all create $T ${rn} rot yes mom yes dist gaussian
+fix 1 all npt temp $T $T $(dt*10) x 0 0 $(dt*1000) z 0 0 $(dt*1000)
+run 20 #00
+
+
+write_data   thermalized.txt 
+
+
+#--- swap
+fix 4 all atom/swap ${swap_every} ${swap_atoms} ${rn} ${T} ke no  types 1 2 
+fix 5 all atom/swap ${swap_every} ${swap_atoms} ${rn} ${T} ke no  types 1 3 
+fix 7 all atom/swap ${swap_every} ${swap_atoms} ${rn} ${T} ke no  types 1 5
+fix 6 all atom/swap ${swap_every} ${swap_atoms} ${rn} ${T} ke no  types 2 3
+fix 8 all atom/swap ${swap_every} ${swap_atoms} ${rn} ${T} ke no  types 2 5
+fix 9 all atom/swap ${swap_every} ${swap_atoms} ${rn} ${T} ke no  types 3 5
+
+variable       swap_attempt equal f_4[1]+f_5[1]+f_6[1]+f_7[1]+f_8[1]+f_9[1]
+variable       swap_accept  equal f_4[2]+f_5[2]+f_6[2]+f_7[2]+f_8[2]+f_9[2]
+variable 	   var_swap_attempt equal v_swap_attempt
+variable 	   var_swap_accept  equal v_swap_accept
+
+#-----------------------------
+##--- compute & dump variables
+##-----------------------------
+undump 1
+dump        1 all custom ${dump_every} atoms.dump id type x y z 
+dump_modify 1 flush yes format line "%d %d %4.3e %4.3e %4.3e" 
+
+thermo 1 
+thermo_style custom step temp pe press vol v_swap_accept v_swap_attempt
+thermo_modify norm no
+
+fix extra all print 10 "${varStep}  ${varTemp} ${varVol} ${var_swap_accept} ${var_swap_attempt}" screen no title "step temp vol swap_accept swap_attempt" file thermo2nd.txt
+
+#--- set discretization time 
+#timestep	${dt}
+
+run                       10000
