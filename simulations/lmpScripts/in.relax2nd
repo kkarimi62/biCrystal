@@ -21,7 +21,7 @@ pair_coeff * *
 neighbor 2.0 bin
 neigh_modify delay 10 every 1 check yes
 
-thermo 1
+thermo 100
 #thermo_style custom step temp pe pyz etotal press pxx pyy pzz vol lx ly lz
 thermo_style custom step temp pe press vol 
 thermo_modify norm no
@@ -36,7 +36,7 @@ dump 1 all custom ${dump_every} traj.dump id type x y z
 
 velocity all create $T ${rn} rot yes mom yes dist gaussian
 fix 1 all npt temp $T $T $(dt*10) x 0 0 $(dt*1000) z 0 0 $(dt*1000)
-run 20 #00
+run 1000
 
 
 write_data   thermalized.txt 
