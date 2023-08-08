@@ -9,7 +9,7 @@ include ${INC}/CreateBox.mod
 include ${INC}/potential.mod
 
 #--- set mass 
-include ${INC}/mass.mod
+#include ${INC}/mass.mod
 
 #--- fix buffer zone
 include ${INC}/buffer.mod
