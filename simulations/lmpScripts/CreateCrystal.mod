@@ -40,10 +40,10 @@ create_atoms    1 box               ## create type-1 metal atoms in the box
 #--- 5-component alloy
 #--- get number of atoms
 variable	natom	equal	"atoms"
-variable	natom2	equal	floor(${natom}/5)
-variable	natom3	equal	floor(${natom2})
-variable	natom4	equal	floor(${natom2})
-variable	natom5	equal	floor(${natom2})
+variable	natom2	equal	floor(${natom}*${rho2})
+variable	natom3	equal	floor(${natom2}*${rho3})
+variable	natom4	equal	floor(${natom2}*${rho4})
+variable	natom5	equal	floor(${natom2}*${rho5})
 #
 group kind1 type 1
 set group kind1 type/subset 2 ${natom2} ${seed0}
