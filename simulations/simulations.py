@@ -3,7 +3,7 @@ def makeOAR( EXEC_DIR, node, core, time ):
 	print >> someFile, '#!/bin/bash\n'
 	print >> someFile, 'EXEC_DIR=%s\n' %( EXEC_DIR )
 	print >> someFile, 'MEAM_library_DIR=%s\n' %( MEAM_library_DIR )
-#	print >> someFile, 'source ~/Project/opt/deepmd-kit/bin/activate ~/Project/opt/deepmd-kit\nexport OMP_NUM_THREADS=%s'%(nThreads*nNode) #--- deep potential stuff
+	print >> someFile, 'source ~/Project/opt/deepmd-kit/bin/activate ~/Project/opt/deepmd-kit\nexport OMP_NUM_THREADS=%s'%(nThreads*nNode) #--- deep potential stuff
 	print >> someFile, 'module load openmpi/4.0.2-gnu730\nmodule load lib/openblas/0.3.13-gnu\n'
 
 	#--- run python script 
@@ -12,6 +12,8 @@ def makeOAR( EXEC_DIR, node, core, time ):
 	for script,var,indx, execc in zip(Pipeline,Variables,range(100),EXEC):
 		if execc[:4] == 'lmp_': #_mpi' or EXEC == 'lmp_serial':
 			print >> someFile, "mpirun --oversubscribe -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH \'%s\' -var PathEam %s -var INC \'%s\' %s\n"%(nThreads*nNode, EXEC_lmp, script, OUT_PATH, '${MEAM_library_DIR}', SCRPT_DIR, var)
+        elif execc == '_lmp':
+            print >> someFile, "$EXEC_DIR/%s < %s -echo screen -var OUT_PATH \'%s\' -var PathEam %s -var INC \'%s\' %s\n"%(EXEC_lmp, script, OUT_PATH, '${MEAM_library_DIR}', SCRPT_DIR, var)
 		elif execc == 'py':
 			print >> someFile, "python3 %s %s\n"%(script, var)
 		elif execc == 'kmc':
@@ -34,7 +36,7 @@ if __name__ == '__main__':
                 3:'hydrogenDiffusionInAlMultipleTemp/Temp1000K', 
                 4:'mitStuff2nd', 
                 5:'pureHydrogenDiffusion_md_MultipleTemps/temp0', #'pureHydrogenDiffusion5th', 
-                6:'nicocrNoDefect', #'hydrogenFree',
+                6:'noDefect', #'hydrogenFree',
                }[6]
     sourcePath = os.getcwd() +\
                 {	
@@ -44,7 +46,7 @@ if __name__ == '__main__':
                     5:'/dataFiles/reneData',
                     4:'/mitPotential',
                     6:'/pureCrystall',
-                }[ 0 ] #--- must be different than sourcePath. set it to 'junk' if no path
+                }[ 4 ] #--- must be different than sourcePath. set it to 'junk' if no path
         #
     sourceFiles = { 0:False,
                     1:['data_init.txt','data_minimized.txt'],
@@ -53,12 +55,12 @@ if __name__ == '__main__':
                     4:['data_minimized.txt'],
                     5:['data_init.txt','ScriptGroup.0.txt'], #--- only one partition! for multiple ones, use 'submit.py'
                     6:['sortieproc.0'], 
-                    7:['compressed_model.pb','frozen_model.pb','init.lmp'], 
-                 }[0] #--- to be copied from the above directory. set it to '0' if no file
+                    7:['compressed_model.pb','frozen_model.pb'], #'init.lmp'], 
+                 }[7] #--- to be copied from the above directory. set it to '0' if no file
     #
     EXEC_DIR = {0:'~/Project/git/lammps2nd/lammps/src', #--- path for executable file
                 1:'~/Project/opt/deepmd-kit/bin' #--- path for executable file: deep potential
-                }[0]
+                }[1]
     #
     MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
     #
@@ -102,7 +104,7 @@ if __name__ == '__main__':
                 0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0 -var ntype 3 -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
                 6:' -var buff 0.0 -var T 300 -var P 0.0 -var gammaxy 1.0 -var gammadot 1.0e-04 -var nthermo 10000 -var ndump 1000 -var ParseData 1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
                 4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 100 -var ParseData 1 -var WriteData swapped_600.dat', 
-                5:' -var buff 0.0 -var buffy 0.0 -var nevery 1000 -var ParseData 0 -var natoms 2000 -var ntype 3 -var cutoff 3.54  -var DumpFile dumpMin.xyz -var WriteData data_minimized.dat -var seed0 %s -var seed1 %s -var seed2 %s -var seed3 %s'%tuple(np.random.randint(1001,9999,size=4)), 
+                5:' -var buff 0.0 -var buffy 0.0 -var nevery 1000 -var ParseData 0 -var natoms 2000 -var ntype 5 -var cutoff 3.54  -var DumpFile dumpMin.xyz -var WriteData data_minimized.dat -var seed0 %s -var seed1 %s -var seed2 %s -var seed3 %s'%tuple(np.random.randint(1001,9999,size=4)), 
                 51:' -var buff 0.0 -var buffy 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
                 7:' -var buff 0.0 -var T 1500.0 -var P 0.0 -var nevery 100 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
                 71:' -var buff 0.0 -var buffy 0.0 -var T 300.0 -var Tinit 300.0 -var seed %s -var P 0.0 -var nevery 100 -var ParseData 1 -var DataFile data_minimized.dat -var DumpFile dumpThermalized.xyz -var WriteData equilibrated.dat'%np.random.randint(1001,9999),
@@ -145,7 +147,7 @@ if __name__ == '__main__':
 #	Variables = list(map(lambda x:Variable[x], indices))
 #        print('EXEC=',EXEC)
     #
-    EXEC_lmp = ['lmp_mpi','lmp_serial','_lmp'][0]
+    EXEC_lmp = ['lmp_mpi','lmp_serial','_lmp'][2]
     durtn = ['23:59:59','00:09:59','167:59:59'][ 0 ]
     mem = '12gb'
     partition = ['gpu-v100','parallel','cpu2019','single'][1]
