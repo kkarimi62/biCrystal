@@ -83,6 +83,7 @@ if __name__ == '__main__':
                     9:'in.elastic',
                     10:'in.elasticSoftWall',
                     11:'in.relax',
+                    12:'in.swap_GB4',
                     'p0':'partition.py', #--- python file
                     'p1':'WriteDump.py',
                     'p2':'DislocateEdge.py',
