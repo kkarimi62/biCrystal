@@ -162,7 +162,7 @@ if __name__ == '__main__':
         #
         EXEC_lmp = {0:'lmp_g++_openmpi',
                     'mit':'lmp',
-                    }['mit']
+                    }[0]
         durtn = ['23:59:59','00:09:59','167:59:59'][ 0 ]
         mem = '12gb'
         partition = ['INTEL_PHI','INTEL_CASCADE'][1]
