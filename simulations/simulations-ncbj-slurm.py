@@ -38,7 +38,7 @@ if __name__ == '__main__':
                     4:'mitStuff2nd', 
                     7:'defectNoWall/boundary/boundary2', #'biCrystalMultipleTemp2nd/temp0', 
                     8:'withDefectWithwall/rate/rate0', #'biCrystalMultipleTemp2nd/temp0', 
-                    9:'noDefect', #'biCrystalMultipleTemp2nd/temp0', 
+                    9:'nicocrNoDefect', #'biCrystalMultipleTemp2nd/temp0', 
                    }[9]
         sourcePath = os.getcwd() +\
                     {	
@@ -48,7 +48,7 @@ if __name__ == '__main__':
                         5:'/dataFiles/reneData',
                         4:'/mitPotential',
                         6:'/hydrogenFree',
-                    }[ 4 ] #--- must be different than sourcePath. set it to 'junk' if no path
+                    }[ 0 ] #--- must be different than sourcePath. set it to 'junk' if no path
             #
         sourceFiles = { 0:False,
                         1:['data_init.txt','data_minimized.txt'],
@@ -58,15 +58,15 @@ if __name__ == '__main__':
                         5:['data_init.txt','ScriptGroup.0.txt'], #--- only one partition! for multiple ones, use 'submit.py'
                         6:['sortieproc.0'], 
                         7:['compressed_model.pb','frozen_model.pb','init.lmp'], 
-                     }[7] #--- to be copied from the above directory. set it to '0' if no file
+                     }[0] #--- to be copied from the above directory. set it to '0' if no file
         #
         EXEC_DIR = {0:'~/Project/git/lammps2nd/lammps/src', #--- path for executable file
                     1:'~/Project/opt/anaconda3/envs/deepmd3rd/bin' #--- path for executable file: deep potential
-                    }[1]
+                    }[0]
         #
         MEAM_library_DIR={0:'/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials',
                           1:'.'
-                        }[1]
+                        }[0]
         home_dir = os.path.expanduser('~')
         py_lib_path = '%s/Project/git/HeaDef/postprocess'%home_dir
         #
@@ -113,10 +113,10 @@ if __name__ == '__main__':
                     0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0 -var ntype 3 -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
                     6:' -var buff 0.0 -var T 300 -var P 0.0 -var gammaxy 1.0 -var gammadot 1.0e-04 -var nthermo 10000 -var ndump 1000 -var ParseData 1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
                     4:' -var buff 0.0 -var buffy 5.0 -var T 600.0 -var t_sw 20.0 -var DataFile data_minimized.dat -var nevery 100 -var ParseData 1 -var WriteData swapped.dat -var DumpFile swapped.dump', 
-                    5:' -var buff 0.0 -var nevery 1000 -var ParseData 0 -var natoms 1000 -var ntype 2 -var cutoff 3.54  -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt -var seed0 %s -var seed1 %s -var seed2 %s -var seed3 %s'%tuple(np.random.randint(1001,9999,size=4)), 
-                    51:' -var buff 0.0 -var buffy 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
+                    5:' -var buff 0.0 -var buffy 0.0 -var nevery 1000 -var ParseData 0 -var natoms 2000 -var ntype 3 -var cutoff 3.54  -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt -var seed0 %s -var seed1 %s -var seed2 %s -var seed3 %s'%tuple(np.random.randint(1001,9999,size=4)), 
+                    51:' -var buff 0.0 -var buffy 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.dat', 
                     7:' -var buff 0.0 -var T 1500.0 -var P 0.0 -var nevery 100 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData equilibrated.dat',
-                    71:' -var buff 0.0 -var T 0.1 -var P 0.0 -var nevery 100 -var ParseData 1 -var DataFile swapped_600.dat -var DumpFile dumpThermalized2.xyz -var WriteData Equilibrated_0.dat',
+                    71:' -var buff 0.0 -var buff 0.0 -var T 300.0 -var P 0.0 -var nevery 100 -var ParseData 1 -var DataFile data_minimized.dat -var DumpFile dumpThermalized.xyz -var WriteData equilibrated.dat',
                     72:' -var seed %s -var buff 0.0 -var buffy 0.0 -var Tinit 300.0 -var T 300.0 -var nevery 100 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpThermalized.xyz -var WriteData equilibrated.dat'%np.random.randint(1001,9999),
                     8:' -var buff 0.0 -var T 300.0 -var sigm 1.0 -var sigmdt 0.0001 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
                     9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
@@ -153,7 +153,8 @@ if __name__ == '__main__':
                     12:['p8', 51, 72], #--- twin boundary by atomsk, minimize, thermalize
                     13:['p8', 72, 12], #--- twin boundary by atomsk, thermalize, swap
                     14:[13],
-                  }[ 14 ]
+                    15:[5,71,12],
+                  }[ 15 ]
         
         ###
         Pipeline = list(map(lambda x:LmpScript[x],indices))
@@ -162,7 +163,7 @@ if __name__ == '__main__':
         EXEC_lmp = {0:'lmp_g++_openmpi',
                     'mit':'lmp',
                     }['mit']
-        durtn = ['23:59:59','00:09:59','167:59:59'][ 2 ]
+        durtn = ['23:59:59','00:09:59','167:59:59'][ 0 ]
         mem = '12gb'
         partition = ['INTEL_PHI','INTEL_CASCADE'][1]
         #--
