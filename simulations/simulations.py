@@ -64,6 +64,8 @@ if __name__ == '__main__':
     #
     MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
     #
+    home_dir = os.path.expanduser('~')
+    py_lib_path = '%s/Project/git/HeaDef/postprocess'%home_dir
     SCRPT_DIR = os.getcwd()+'/lmpScripts' 
     #
     SCRATCH = None
