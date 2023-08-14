@@ -36,7 +36,7 @@ if __name__ == '__main__':
                 3:'hydrogenDiffusionInAlMultipleTemp/Temp1000K', 
                 4:'mitStuff2nd', 
                 5:'pureHydrogenDiffusion_md_MultipleTemps/temp0', #'pureHydrogenDiffusion5th', 
-                6:'noDefect/excludeHydrogen', #'hydrogenFree',
+                6:'gbAnnealed',#'noDefect/excludeHydrogen', #'hydrogenFree',
                }[6]
     sourcePath = os.getcwd() +\
                 {	
@@ -95,6 +95,7 @@ if __name__ == '__main__':
                     'p5':'bash-to-csh.py',
                     'p6':'addAtom.py',
                     'p7':'getTopoDefectFree.py',
+                    'p8':'twinBoundaries.py',
                     1.0:'kmc.sh', #--- bash script
                     2.0:'kmcUniqueCRYST.sh', #--- bash script
                 } 
@@ -123,6 +124,7 @@ if __name__ == '__main__':
                 'p5':' ',
                 'p6':' %s data_minimized.txt data_minimized.txt 10'%(os.getcwd()+'/../../HeaDef/postprocess'),
                 'p7':' sortieproc.0 0 Topo_ignore',
+                'p8':' %s 3.52 13.0 20.0 16.0 data_minimized.dat 5 1 2 3 4 5 0.1 0.1 0.45 0.0 0.35'%(py_lib_path),
                  1.0:'-x DataFile=data_minimized.txt',
                  2.0:'-x DataFile=data_minimized.txt',
                 } 
@@ -140,9 +142,9 @@ if __name__ == '__main__':
                 8:['p2',51,'p6',51,'p3','p5',1.0], #--- dislocate, minimize,add H, minimize, kart input, kart.sh to bash shell ,invoke kart
                 81:[5,'p6',51,'p3','p5',1.0], #--- minimize,add H, minimize, kart input, kart.sh to bash shell ,invoke kart
                 82:[5,'p6',51,72], #--- minimize,add H, minimize, thermalize
-                9:['p7','p3','p5',1.0], #--- create Topo_ignore, kart input, kart.sh to bash shell ,invoke kart
                 10:[5,71,12],
-              }[ 10 ]
+                9:['p8', 71, 12], #--- twin boundary by atomsk, thermalize, swap
+              }[ 9 ]
     Pipeline = list(map(lambda x:LmpScript[x],indices))
 #	Variables = list(map(lambda x:Variable[x], indices))
 #        print('EXEC=',EXEC)
