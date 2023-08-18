@@ -36,7 +36,7 @@ if __name__ == '__main__':
                 3:'hydrogenDiffusionInAlMultipleTemp/Temp1000K', 
                 4:'mitStuff2nd', 
                 5:'pureHydrogenDiffusion_md_MultipleTemps/temp0', #'pureHydrogenDiffusion5th', 
-                6:'gbAnnealed',#'noDefect/excludeHydrogen', #'hydrogenFree',
+                6:'nicocrGbAnnealed',#'noDefect/excludeHydrogen', #'hydrogenFree',
                }[6]
     sourcePath = os.getcwd() +\
                 {	
@@ -45,8 +45,7 @@ if __name__ == '__main__':
                     2:'/NiCoCrNatom1KTemp0K',
                     5:'/dataFiles/reneData',
                     4:'/mitPotential',
-                    6:'/pureCrystall',
-                }[ 4 ] #--- must be different than sourcePath. set it to 'junk' if no path
+                }[ 0 ] #--- must be different than sourcePath. set it to 'junk' if no path
         #
     sourceFiles = { 0:False,
                     1:['data_init.txt','data_minimized.txt'],
@@ -56,11 +55,11 @@ if __name__ == '__main__':
                     5:['data_init.txt','ScriptGroup.0.txt'], #--- only one partition! for multiple ones, use 'submit.py'
                     6:['sortieproc.0'], 
                     7:['compressed_model.pb','frozen_model.pb'], #'init.lmp'], 
-                 }[7] #--- to be copied from the above directory. set it to '0' if no file
+                 }[0] #--- to be copied from the above directory. set it to '0' if no file
     #
     EXEC_DIR = {0:'~/Project/git/lammps2nd/lammps/src', #--- path for executable file
                 1:'~/Project/opt/deepmd-kit/bin' #--- path for executable file: deep potential
-                }[1]
+                }[0]
     #
     MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
     #
@@ -98,6 +97,7 @@ if __name__ == '__main__':
                     'p6':'addAtom.py',
                     'p7':'getTopoDefectFree.py',
                     'p8':'twinBoundaries.py',
+                    'p81':'twinBoundaries.py',
                     1.0:'kmc.sh', #--- bash script
                     2.0:'kmcUniqueCRYST.sh', #--- bash script
                 } 
@@ -127,6 +127,7 @@ if __name__ == '__main__':
                 'p6':' %s data_minimized.txt data_minimized.txt 10'%(os.getcwd()+'/../../HeaDef/postprocess'),
                 'p7':' sortieproc.0 0 Topo_ignore',
                 'p8':' %s 3.52 13.0 20.0 16.0 data_minimized.dat 5 1 2 3 4 5 0.1 0.1 0.45 0.0 0.35'%(py_lib_path),
+                'p81':' %s 3.52 13.0 20.0 16.0 data_minimized.dat 3 1 2 3 0.33 0.33 0.33'%(py_lib_path),
                  1.0:'-x DataFile=data_minimized.txt',
                  2.0:'-x DataFile=data_minimized.txt',
                 } 
@@ -151,7 +152,7 @@ if __name__ == '__main__':
 #	Variables = list(map(lambda x:Variable[x], indices))
 #        print('EXEC=',EXEC)
     #
-    EXEC_lmp = ['lmp_mpi','lmp_serial','_lmp'][2]
+    EXEC_lmp = ['lmp_mpi','lmp_serial','_lmp'][0]
     durtn = ['23:59:59','00:09:59','167:59:59'][ 0 ]
     mem = '12gb'
     partition = ['gpu-v100','parallel','cpu2019','single'][1]
