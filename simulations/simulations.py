@@ -146,7 +146,7 @@ if __name__ == '__main__':
                 81:[5,'p6',51,'p3','p5',1.0], #--- minimize,add H, minimize, kart input, kart.sh to bash shell ,invoke kart
                 82:[5,'p6',51,72], #--- minimize,add H, minimize, thermalize
                 10:[5,71,12],
-                9:['p8', 71, 12], #--- twin boundary by atomsk, thermalize, swap
+                9:['p81', 71, 12], #--- twin boundary by atomsk, thermalize, swap
               }[ 9 ]
     Pipeline = list(map(lambda x:LmpScript[x],indices))
 #	Variables = list(map(lambda x:Variable[x], indices))
